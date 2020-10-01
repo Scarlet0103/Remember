@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Remember</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="navOpen">Navigation Drawer Open</string>
+    <string name="navclose">Navigation Drawer Close</string>
+</resources>

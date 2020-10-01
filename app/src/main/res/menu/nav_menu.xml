@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/main_menu_group" android:checkableBehavior="single">
+        <item android:title="Notes" android:id="@+id/notes_menu" android:icon="@drawable/ic_notes_24"/>
+        <item android:title="Hidden Notes" android:id="@+id/sec_notes_menu" android:icon="@drawable/ic_security_24"/>
+        <item android:title="Archived" android:id="@+id/archieve_menu" android:icon="@drawable/ic_archive_24"/>
+        <item android:title="Create new label" android:id="@+id/create_label" android:icon="@drawable/ic_add_24" />
+<!--        <item android:id="@+id/label_menu" android:title="LABELS"  android:checkable="true">-->
+<!--            <menu>-->
+<!--                <item android:title="Create new label" android:id="@+id/create_label"/>-->
+<!--                <item android:title="Personal" android:id="@+id/personal_menu"/>-->
+<!--                <item android:title="Work" android:id="@+id/work_menu"/>-->
+<!--            </menu>-->
+<!--        </item>-->
+    </group>
+    <item android:id="@+id/menu_labels_id" android:title="Labels">
+        <menu>
+            <group android:id="@+id/menu_labels" android:checkableBehavior="single"/>
+        </menu>
+    </item>
+</menu>

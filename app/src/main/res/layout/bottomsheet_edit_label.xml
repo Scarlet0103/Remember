@@ -1,0 +1,72 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_container_label"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:elevation="16dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="@color/gray_shade1_tint1"
+        app:strokeWidth="1dp">
+
+        <EditText
+            android:id="@+id/editText_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textCursorDrawable="@drawable/textcursor"
+            android:background="@null"
+            android:fontFamily="@font/varela_round"
+            android:hint="Label Name"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="end"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/update_button"
+        android:fontFamily="@font/varela_round"
+        android:text="Update"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:background="@drawable/update_button"
+        android:fontFamily="@font/varela_round"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="@+id/update_button"
+        app:layout_constraintStart_toStartOf="@+id/materialCardView"
+        app:layout_constraintTop_toTopOf="@+id/update_button" />
+</androidx.constraintlayout.widget.ConstraintLayout>

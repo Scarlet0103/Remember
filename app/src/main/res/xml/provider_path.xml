@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+    <external-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+    <cache-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+    <external-cache-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+    <external-files-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+    <external-media-path
+        name="RememberImages"
+        path="/app_RememberImageDir"/>
+</paths>
