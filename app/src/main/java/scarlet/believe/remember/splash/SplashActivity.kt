@@ -1,6 +1,7 @@
 package scarlet.believe.remember.splash
 
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,6 +29,7 @@ import scarlet.believe.remember.auth.AuthViewModel
 import scarlet.believe.remember.auth.User
 import scarlet.believe.remember.home.HomeActivity
 import scarlet.believe.remember.utils.Constants
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
 
@@ -47,6 +50,15 @@ class SplashActivity : AppCompatActivity() {
         initGoogleSignInClient()
         checkIfUserIsAuthenticated()
 
+    }
+
+    override fun getResources(): Resources {
+        val ctime  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        if(ctime>=18 || ctime<6)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        return super.getResources()
     }
 
     private fun initView(){

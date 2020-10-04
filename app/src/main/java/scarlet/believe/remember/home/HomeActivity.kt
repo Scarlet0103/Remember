@@ -1,6 +1,9 @@
 package scarlet.believe.remember.home
 
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.security.keystore.KeyGenParameterSpec
@@ -8,6 +11,8 @@ import android.security.keystore.KeyProperties
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.getSystemService
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
