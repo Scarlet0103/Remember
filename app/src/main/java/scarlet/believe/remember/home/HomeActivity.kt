@@ -23,11 +23,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import scarlet.believe.remember.R
-import scarlet.believe.remember.auth.AuthActivity
 import scarlet.believe.remember.db.Label
 import scarlet.believe.remember.home.archieve.ArchieveFragment
 import scarlet.believe.remember.home.labels.LabelFragment
 import scarlet.believe.remember.home.secured.SecuredFragment
+import scarlet.believe.remember.splash.SplashActivity
 import scarlet.believe.remember.utils.Constants.Companion.USER
 import scarlet.believe.remember.utils.NavigationDrawerInterface
 import scarlet.believe.remember.utils.SelectMenuItemNav
@@ -49,6 +49,7 @@ class HomeActivity : AppCompatActivity(),FirebaseAuth.AuthStateListener,Navigati
     private lateinit var navigationView : NavigationView
     private lateinit var handler : Handler
 
+    private lateinit var settingsMenu : MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,7 +110,10 @@ class HomeActivity : AppCompatActivity(),FirebaseAuth.AuthStateListener,Navigati
     }
 
     override fun selectMenuItem(id: Int) {
-        navigationView.setCheckedItem(id)
+        if(id==95)
+            navigationView.setCheckedItem(settingsMenu)
+        else
+            navigationView.setCheckedItem(id)
     }
 
     private fun addItemsAtRunTime(){
@@ -131,9 +135,9 @@ class HomeActivity : AppCompatActivity(),FirebaseAuth.AuthStateListener,Navigati
                         .setIcon(R.drawable.ic_label_24)
                         .isCheckable = true
                 }
-                menu.add(95,size,size,"Settings")
-                    .setIcon(R.drawable.ic_settings_24)
-                    .isCheckable = true
+                settingsMenu = menu.add(95,size,size,"Settings")
+                settingsMenu.setIcon(R.drawable.ic_settings_24)
+                settingsMenu.isCheckable = true
             }
         })
     }
@@ -208,13 +212,22 @@ class HomeActivity : AppCompatActivity(),FirebaseAuth.AuthStateListener,Navigati
             },500)
         }
 
+        if(name=="Settings"){
+            drawerLayout.closeDrawer(GravityCompat.START)
+            handler.postDelayed({
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_frag,SettingsFragment())
+                    .commitNow()
+            },500)
+        }
+
         return true
     }
 
     override fun onAuthStateChanged(p0: FirebaseAuth) {
         val firebaseuser = firebaseAuth.currentUser
         if(firebaseuser==null){
-            val intent = Intent(this,AuthActivity::class.java)
+            val intent = Intent(this,SplashActivity::class.java)
             startActivity(intent)
             finish()
         }

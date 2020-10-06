@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -25,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar
 
 import scarlet.believe.remember.R
 import scarlet.believe.remember.db.Note
+import scarlet.believe.remember.home.HomeFragment
 
 import scarlet.believe.remember.home.HomeViewModel
 import scarlet.believe.remember.utils.NavigationDrawerInterface
@@ -40,9 +42,11 @@ class ArchieveFragment : Fragment(),RecyclerViewLongClickListener {
     private lateinit var bottomSheetDialog : BottomSheetDialog
     private lateinit var bottomSheetView : View
     private var snackbar : Snackbar? = null
+    private var isstaggeredLayout = true
     private lateinit var arch_recyclerview : RecyclerView
     private lateinit var arch_adapter : ArchieveAdapter
     private lateinit var nav_btn : ImageButton
+    private lateinit var archLayoutChangeBtn : ImageButton
     private lateinit var arch_constraintlayout : CoordinatorLayout
     private lateinit var bg_constraintlayout : ConstraintLayout
 
@@ -54,6 +58,7 @@ class ArchieveFragment : Fragment(),RecyclerViewLongClickListener {
         val view = inflater.inflate(R.layout.fragment_archieve, container, false)
         initView(view)
         initViewModel()
+        onBackPressed()
         return view
     }
 
@@ -63,14 +68,30 @@ class ArchieveFragment : Fragment(),RecyclerViewLongClickListener {
         bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.archieve_bottom_sheet, view.findViewById(R.id.bottom_sheet_archieve))
 
         notesList = mutableListOf()
-        nav_btn =  view.findViewById(R.id.navdrawer_homeBtn)
+        nav_btn =  view.findViewById(R.id.navdrawer_archBtn)
         arch_recyclerview = view.findViewById(R.id.arch_recyclerview)
         arch_constraintlayout = view.findViewById(R.id.arch_constraintlayout)
         bg_constraintlayout = view.findViewById(R.id.bg_archive)
+        archLayoutChangeBtn = view.findViewById(R.id.arc_layoutchange)
 
         nav_btn.setOnClickListener {
             (activity as NavigationDrawerInterface).opencloseDrawer()
         }
+
+        archLayoutChangeBtn.setOnClickListener {
+            if(isstaggeredLayout){
+                arch_recyclerview.layoutManager = StaggeredGridLayoutManager(1, LinearLayout.VERTICAL)
+                arch_adapter.notifyItemRangeChanged(0,arch_adapter.itemCount)
+                archLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square2)
+                isstaggeredLayout = false
+            }else{
+                arch_recyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayout.VERTICAL)
+                arch_adapter.notifyItemRangeChanged(0,arch_adapter.itemCount)
+                archLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square1)
+                isstaggeredLayout = true
+            }
+        }
+
     }
 
     private fun initViewModel(){
@@ -193,6 +214,17 @@ class ArchieveFragment : Fragment(),RecyclerViewLongClickListener {
         }
         return true
     }
+
+    private fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container_frag, HomeFragment())
+                    ?.commit()
+            }
+        })
+    }
+
 
 
 }

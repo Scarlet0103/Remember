@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -32,12 +33,14 @@ class LabelNotesFragment(val labelName : String) : Fragment() , RecyclerViewClic
     private var BACK_STACK = "root_fragment"
     private var isSwipeEnabled =  true
     private var snackbar : Snackbar? = null
+    private var isstaggeredLayout = true
     private lateinit var bottomSheetDialog : BottomSheetDialog
     private lateinit var bottomSheetView : View
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var label_recyclerview : RecyclerView
     private lateinit var label_adapter : HomeAdapter
     private lateinit var nav_btn : ImageButton
+    private lateinit var labelLayoutChangeBtn : ImageButton
     private lateinit var coordinatorLayout : CoordinatorLayout
     private lateinit var bg_constraintlayout : ConstraintLayout
     private var notesList = mutableListOf<Note>()
@@ -49,6 +52,7 @@ class LabelNotesFragment(val labelName : String) : Fragment() , RecyclerViewClic
         val view = inflater.inflate(R.layout.fragment_label_notes, container, false)
         initView(view)
         initViewModel()
+        onBackPressed()
         return view
     }
 
@@ -58,12 +62,27 @@ class LabelNotesFragment(val labelName : String) : Fragment() , RecyclerViewClic
         bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.all_bottom_sheet, view.findViewById(R.id.bottom_sheet_all))
 
         label_recyclerview = view.findViewById(R.id.label_notes_recyclerview)
-        nav_btn =  view.findViewById(R.id.navdrawer_homeBtn)
+        nav_btn =  view.findViewById(R.id.navdrawer_labelBtn)
         coordinatorLayout = view.findViewById(R.id.label_coordinator_layout)
         bg_constraintlayout = view.findViewById(R.id.bg_labelnotes)
+        labelLayoutChangeBtn = view.findViewById(R.id.label_layoutchange)
 
         nav_btn.setOnClickListener {
             (activity as NavigationDrawerInterface).opencloseDrawer()
+        }
+
+        labelLayoutChangeBtn.setOnClickListener {
+            if(isstaggeredLayout){
+                label_recyclerview.layoutManager = StaggeredGridLayoutManager(1, LinearLayout.VERTICAL)
+                label_adapter.notifyItemRangeChanged(0,label_adapter.itemCount)
+                labelLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square2)
+                isstaggeredLayout = false
+            }else{
+                label_recyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayout.VERTICAL)
+                label_adapter.notifyItemRangeChanged(0,label_adapter.itemCount)
+                labelLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square1)
+                isstaggeredLayout = true
+            }
         }
 
     }
@@ -230,6 +249,17 @@ class LabelNotesFragment(val labelName : String) : Fragment() , RecyclerViewClic
     private fun deleteNote(note: Note){
         homeViewModel.deleteNote(note)
     }
+
+    private fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container_frag,HomeFragment())
+                    ?.commit()
+            }
+        })
+    }
+
 
 
 }

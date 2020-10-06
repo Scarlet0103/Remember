@@ -3,6 +3,7 @@ package scarlet.believe.remember.home
 import android.app.UiModeManager
 import android.content.Context
 import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,12 +38,14 @@ class HomeFragment : Fragment() , RecyclerViewClickListner , RecyclerViewLongCli
     private var notesList = mutableListOf<Note>()
     private var BACK_STACK = "root_fragment"
     private var isSwipeEnabled =  true
+    private var isstaggeredLayout = true
     private var snackbar : Snackbar? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var home_recyclerview : RecyclerView
     private lateinit var home_adapter : HomeAdapter
     private lateinit var addnote_Btn : ImageButton
     private lateinit var nav_btn : ImageButton
+    private lateinit var homeLayoutChangeBtn : ImageButton
     private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var bg_home : ConstraintLayout
 
@@ -63,6 +66,7 @@ class HomeFragment : Fragment() , RecyclerViewClickListner , RecyclerViewLongCli
 
         home_recyclerview = view.findViewById(R.id.home_recyclerview)
         addnote_Btn = view.findViewById(R.id.addnote_Btn)
+        homeLayoutChangeBtn = view.findViewById(R.id.home_layoutchange)
         nav_btn =  view.findViewById(R.id.navdrawer_homeBtn)
         coordinatorLayout = view.findViewById(R.id.constraint_layout_main)
         bg_home = view.findViewById(R.id.bg_home)
@@ -73,6 +77,22 @@ class HomeFragment : Fragment() , RecyclerViewClickListner , RecyclerViewLongCli
                 ?.replace(R.id.container_frag,NoteAddFragment(null))
                 ?.addToBackStack(BACK_STACK)
                 ?.commit()
+        }
+
+        homeLayoutChangeBtn.setOnClickListener {
+
+            if(isstaggeredLayout){
+                home_recyclerview.layoutManager = StaggeredGridLayoutManager(1, LinearLayout.VERTICAL)
+                home_adapter.notifyItemRangeChanged(0,home_adapter.itemCount)
+                homeLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square2)
+                isstaggeredLayout = false
+            }else{
+                home_recyclerview.layoutManager = StaggeredGridLayoutManager(2, LinearLayout.VERTICAL)
+                home_adapter.notifyItemRangeChanged(0,home_adapter.itemCount)
+                homeLayoutChangeBtn.background = ContextCompat.getDrawable(this.context!!,R.drawable.ic_square1)
+                isstaggeredLayout = true
+            }
+
         }
 
         nav_btn.setOnClickListener {

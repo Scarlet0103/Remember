@@ -16,9 +16,7 @@
         android:roundIcon="@mipmap/ic_remember_circle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".auth.AuthActivity"
-            android:theme="@style/FullScreenTheme" />
+        <activity android:name=".auth.AuthActivity"/>
         <activity android:name=".home.HomeActivity"/>
         <activity android:name=".splash.SplashActivity">
             <intent-filter>

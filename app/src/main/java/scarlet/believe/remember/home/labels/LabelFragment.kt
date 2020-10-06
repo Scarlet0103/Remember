@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 
 import scarlet.believe.remember.R
 import scarlet.believe.remember.db.Label
+import scarlet.believe.remember.home.HomeFragment
 import scarlet.believe.remember.home.HomeViewModel
 import scarlet.believe.remember.utils.ListViewClickListner
 import scarlet.believe.remember.utils.NavigationDrawerInterface
@@ -53,6 +55,7 @@ class LabelFragment : Fragment(), ListViewClickListner {
         val view = inflater.inflate(R.layout.fragment_label, container, false)
         initView(view)
         initViewModel()
+        onBackPressed()
         return view
     }
 
@@ -192,5 +195,16 @@ class LabelFragment : Fragment(), ListViewClickListner {
             inputMethodManager.hideSoftInputFromWindow(currectFocusedView?.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
+
+    private fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container_frag, HomeFragment())
+                    ?.commit()
+            }
+        })
+    }
+
 
 }

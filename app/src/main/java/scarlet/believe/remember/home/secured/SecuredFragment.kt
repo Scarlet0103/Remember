@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -77,6 +78,7 @@ class SecuredFragment : Fragment() , RecyclerViewLongClickListener, RecyclerView
         initView(view)
         initViewModel()
         initGenerateKey()
+        onBackPressed()
         return view
     }
 
@@ -294,5 +296,16 @@ class SecuredFragment : Fragment() , RecyclerViewLongClickListener, RecyclerView
         cipher.init(Cipher.DECRYPT_MODE,getSecretKey(this.context!!),spec)
         return String(cipher.doFinal(decrptText),Charsets.UTF_8).trim()
     }
+
+    private fun onBackPressed(){
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.container_frag,HomeFragment())
+                    ?.commit()
+            }
+        })
+    }
+
 
 }
