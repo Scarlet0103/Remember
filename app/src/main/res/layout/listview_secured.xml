@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:longClickable="true"
-    android:theme="@style/Theme.MaterialComponents.Light"
     app:cardCornerRadius="8dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/gray_shade1_tint1"

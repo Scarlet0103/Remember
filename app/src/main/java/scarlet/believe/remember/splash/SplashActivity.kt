@@ -1,6 +1,9 @@
 package scarlet.believe.remember.splash
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +13,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,13 +26,16 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import scarlet.believe.remember.R
-import scarlet.believe.remember.auth.AuthActivity
 import scarlet.believe.remember.auth.AuthViewModel
 import scarlet.believe.remember.auth.User
 import scarlet.believe.remember.home.HomeActivity
 import scarlet.believe.remember.utils.Constants
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
+
+    private var SHARED_PREFS : String = "sharedPrefs"
+    private var MY_THEME : String = "theme"
 
     private lateinit var splashViewModel: SplashViewModel
     private lateinit var gBtn : SignInButton
@@ -36,6 +43,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var progressBar : ProgressBar
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var sharedPref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +57,31 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
+
     private fun initView(){
         gBtn = findViewById(R.id.gBtn)
         logInBtn = findViewById(R.id.logInBtn)
         progressBar = findViewById(R.id.splash_progress)
+        sharedPref = getSharedPreferences(SHARED_PREFS,Context.MODE_PRIVATE)
+        initSetTheme(sharedPref.getInt(MY_THEME,3))
+    }
+
+    private fun initSetTheme(i : Int){
+        when(i){
+            1 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            2 -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            3 -> {
+                val ctime  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                if(ctime>=18 || ctime<6)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                else
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
     private fun initSplashViewModel(){
