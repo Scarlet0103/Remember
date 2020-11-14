@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "336238359430",
+    "firebase_url": "https://remember-61aa4.firebaseio.com",
+    "project_id": "remember-61aa4",
+    "storage_bucket": "remember-61aa4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336238359430:android:75b671c529d103a6573207",
+        "android_client_info": {
+          "package_name": "scarlet.believe.remember"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "336238359430-7stalg03gtc5akiga3j2poltes5e0tsb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scarlet.believe.remember",
+            "certificate_hash": "2df7f0078a53000f6eba787ded653241a549e564"
+          }
+        },
+        {
+          "client_id": "336238359430-k93le7cp6g1fpvui98lu9pa7ceiljov1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "scarlet.believe.remember",
+            "certificate_hash": "b31ef0058bc5b2e941cdfe368afb68e3ef620e68"
+          }
+        },
+        {
+          "client_id": "336238359430-4c3m9c2r7e8dasn5q4rro37dd2pn82ep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD4CbOupw9EzcIsPL1U9r4RVDS0Wx2eQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "336238359430-4c3m9c2r7e8dasn5q4rro37dd2pn82ep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

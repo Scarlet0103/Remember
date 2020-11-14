@@ -53,7 +53,7 @@ class HomeAdapter(val noteList: MutableList<Note>, val listner: RecyclerViewClic
         if(noteList[position].imageString!=null){
             val imgFile = File(noteList[position].imageString)
             if (imgFile.exists()) {
-                //val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                //val bitmap = BitmapFactory.decodeFile(imgFil  e.absolutePath)
                 val options = BitmapFactory.Options()
                 options.inPreferredConfig = Bitmap.Config.RGB_565
                 val image = BitmapFactory.decodeFile(imgFile.absolutePath,options)

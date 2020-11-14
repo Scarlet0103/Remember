@@ -42,7 +42,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun initAuthViewModel(){
-        authViewModel = ViewModelProvider(this).get<AuthViewModel>(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
     fun initGoogleSignInClient() {

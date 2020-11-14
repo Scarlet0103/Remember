@@ -16,17 +16,19 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import de.cketti.mailto.EmailIntentBuilder
 import scarlet.believe.remember.R
 import scarlet.believe.remember.splash.SplashActivity
+import scarlet.believe.remember.utils.BottomSheetThemeInterface
 import scarlet.believe.remember.utils.NavigationDrawerInterface
 import scarlet.believe.remember.utils.SelectMenuItemNav
 import java.util.*
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(),BottomSheetThemeInterface {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val policyUrl = Uri.parse("https://docs.google.com/document/d/16L_iDJZvRv3L-feyFzs5XfBY0N3VD-aJakrbXD9clwU/edit?usp=sharing")
@@ -35,8 +37,9 @@ class SettingsFragment : Fragment() {
     private val emailDev = "scarlet.erza.0103@gmail.com"
     private var SHARED_PREFS : String = "sharedPrefs"
     private var MY_THEME : String = "theme"
-    private lateinit var bottomSheetDialog : BottomSheetDialog
-    private lateinit var bottomSheetView : View
+    private lateinit var bottomSheetDialogFragment: AddBottomSheet
+//    private lateinit var bottomSheetDialog : BottomSheetDialog
+//    private lateinit var bottomSheetView : View
     private lateinit var nav_btn : ImageButton
 //    private lateinit var logout_Btn : MaterialButton
     private lateinit var themeTxt : TextView
@@ -60,9 +63,10 @@ class SettingsFragment : Fragment() {
     private fun initView(view: View){
         (activity as SelectMenuItemNav).selectMenuItem(95)
 
-        bottomSheetDialog = BottomSheetDialog(this.context!!,R.style.BottomSheetDialogTheme)
-        bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.bottomsheet_settings, view.findViewById(R.id.bottom_sheet_container_setting))
-        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialogFragment = AddBottomSheet(this).newInstance()
+//        bottomSheetDialog = BottomSheetDialog(this.context!!,R.style.BottomSheetDialogTheme)
+//        bottomSheetView = LayoutInflater.from(this.context).inflate(R.layout.bottomsheet_settings, view.findViewById(R.id.bottom_sheet_container_setting))
+//        bottomSheetDialog.setContentView(bottomSheetView)
 
         nav_btn = view.findViewById(R.id.navdrawer_settingBtn)
 //        logout_Btn = view.findViewById(R.id.logOutBtn)
@@ -74,8 +78,9 @@ class SettingsFragment : Fragment() {
         editor = sharedPref.edit()
 
         themeTxt.setOnClickListener {
-            bottomSheetDialog.show()
-            selectTheme()
+//            bottomSheetDialog.show()
+//            selectTheme()
+            bottomSheetDialogFragment.show(activity?.supportFragmentManager!!,"add_bottomsheet_fragment")
         }
 
         policyTxt.setOnClickListener {
@@ -113,31 +118,32 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun selectTheme(){
-
-        bottomSheetDialog.findViewById<TextView>(R.id.lighttheme_setting)?.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            editor.putInt(MY_THEME,1).apply()
-        }
-
-        bottomSheetDialog.findViewById<TextView>(R.id.darktheme_setting)?.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            editor.putInt(MY_THEME,2).apply()
-        }
-
-        bottomSheetDialog.findViewById<TextView>(R.id.autotheme_setting)?.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            val ctime  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-            editor.putInt(MY_THEME,3).apply()
-            if(ctime>=18 || ctime<6)
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
-    }
+//    private fun selectTheme(){
+//
+//
+//        bottomSheetDialog.findViewById<TextView>(R.id.lighttheme_setting)?.setOnClickListener {
+//            bottomSheetDialog.dismiss()
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            editor.putInt(MY_THEME,1).apply()
+//        }
+//
+//        bottomSheetDialog.findViewById<TextView>(R.id.darktheme_setting)?.setOnClickListener {
+//            bottomSheetDialog.dismiss()
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            editor.putInt(MY_THEME,2).apply()
+//        }
+//
+//        bottomSheetDialog.findViewById<TextView>(R.id.autotheme_setting)?.setOnClickListener {
+//            bottomSheetDialog.dismiss()
+//            val ctime  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+//            editor.putInt(MY_THEME,3).apply()
+//            if(ctime>=18 || ctime<6)
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            else
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        }
+//
+//    }
 
     private fun onBackPressed(){
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
@@ -147,6 +153,30 @@ class SettingsFragment : Fragment() {
                     ?.commit()
             }
         })
+    }
+
+    override fun themeSelected(theme : Int) {
+        when(theme){
+            1 -> {
+                bottomSheetDialogFragment.dismiss()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                editor.putInt(MY_THEME,1).apply()
+            }
+            2 -> {
+                bottomSheetDialogFragment.dismiss()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                editor.putInt(MY_THEME,2).apply()
+            }
+            3 -> {
+                bottomSheetDialogFragment.dismiss()
+                val ctime  = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                editor.putInt(MY_THEME,3).apply()
+                if(ctime>=18 || ctime<6)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                else
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
     }
 
 
